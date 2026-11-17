@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>混剪pmv在线播放-多曲风节奏剪辑与无损串烧</title>
+<meta name="description" content="混剪pmv在线播放专注多曲风节奏剪辑与无损串烧，汇总燃向高帧率、电音变速与动漫踩点混剪片单，提供清晰度、码率、授权来源与播放步骤说明，方便按曲风与时长挑选合适内容。">
+<meta name="keywords" content="混剪pmv在线播放">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e8462b'/%3E%3Cpath d='M16 40 L28 16 L36 34 L48 24 L44 48 L20 48 Z' fill='%23fff1e4'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#1a1714;
+  --ink-soft:#4a443d;
+  --muted:#756c62;
+  --line:#e3ddd4;
+  --line-strong:#c9c0b3;
+  --bg:#fbf8f3;
+  --bg-alt:#f3ece2;
+  --card:#ffffff;
+  --brand:#e8462b;
+  --brand-dark:#b52f1a;
+  --brand-soft:#fde5df;
+  --accent:#1f4e79;
+  --accent-soft:#e2ecf5;
+  --gold:#a8761a;
+  --ok:#2f7d4f;
+  --radius-s:6px;
+  --radius-m:10px;
+  --radius-l:16px;
+  --shadow-s:0 1px 2px rgba(26,23,20,.06);
+  --shadow-m:0 4px 14px rgba(26,23,20,.08);
+  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--sp-7:48px;--sp-8:64px;
+  --font-sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --font-num:"SF Mono","Roboto Mono",Consolas,monospace;
+  --sticky-h:108px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:var(--sticky-h);}
+body{
+  margin:0;font-family:var(--font-sans);color:var(--ink);background:var(--bg);
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+h1,h2,h3,h4{line-height:1.3;color:var(--ink);margin:0;}
+p{margin:0 0 var(--sp-3);}
+ul,ol{margin:0 0 var(--sp-3);padding-left:1.3em;}
+li{margin-bottom:var(--sp-1);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--sp-5);}
+.num{font-family:var(--font-num);font-variant-numeric:tabular-nums;}
+
+/* ===== 吸顶公告条 ===== */
+.announce{
+  position:sticky;top:0;z-index:60;background:var(--ink);color:#f7f1e8;
+  font-size:13.5px;line-height:1.5;
+}
+.announce .wrap{display:flex;align-items:center;gap:var(--sp-3);min-height:38px;flex-wrap:wrap;padding-top:5px;padding-bottom:5px;}
+.announce .tag{
+  background:var(--brand);color:#fff;font-size:11.5px;letter-spacing:.5px;
+  padding:2px 8px;border-radius:3px;font-weight:600;flex:none;
+}
+.announce a{color:#ffd9c9;text-decoration:none;border-bottom:1px dotted rgba(255,217,201,.5);}
+.announce a:hover{color:#fff;border-bottom-color:#fff;}
+.announce .dot{opacity:.4;}
+
+/* ===== 吸顶页头 ===== */
+.site-head{
+  position:sticky;top:38px;z-index:55;background:rgba(251,248,243,.96);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+.head-inner{display:flex;align-items:center;gap:var(--sp-5);min-height:66px;}
+.brand{display:flex;align-items:center;gap:10px;flex:none;text-decoration:none!important;color:var(--ink);}
+.brand-mark{width:38px;height:38px;flex:none;}
+.brand-name{font-size:17.5px;font-weight:800;letter-spacing:.3px;white-space:nowrap;}
+.nav-main{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto;}
+.nav-main a{
+  display:inline-block;padding:7px 11px;border-radius:var(--radius-s);
+  color:var(--ink-soft);font-size:14px;text-decoration:none;white-space:nowrap;
+}
+.nav-main a:hover{background:var(--bg-alt);color:var(--brand-dark);text-decoration:none;}
+.head-tools{display:flex;align-items:center;gap:var(--sp-2);flex:none;}
+.search-box{position:relative;display:flex;align-items:center;}
+.search-box input{
+  width:170px;padding:7px 10px;border:1px solid var(--line-strong);
+  border-radius:var(--radius-s);font-size:13.5px;background:#fff;color:var(--ink);
+  font-family:inherit;
+}
+.search-box input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand);}
+.search-box input::placeholder{color:#a39a8f;}
+.search-result{
+  position:absolute;top:calc(100% + 6px);right:0;width:280px;background:#fff;
+  border:1px solid var(--line-strong);border-radius:var(--radius-m);
+  box-shadow:var(--shadow-m);padding:var(--sp-2);font-size:13.5px;
+  display:none;z-index:70;max-height:320px;overflow:auto;
+}
+.search-result.show{display:block;}
+.search-result .res-item{display:block;padding:6px 8px;border-radius:var(--radius-s);color:var(--ink);}
+.search-result .res-item:hover{background:var(--bg-alt);text-decoration:none;}
+.search-result .res-empty{padding:8px;color:var(--muted);}
+.menu-toggle{
+  display:none;background:#fff;border:1px solid var(--line-strong);
+  border-radius:var(--radius-s);width:38px;height:34px;cursor:pointer;
+  align-items:center;justify-content:center;padding:0;
+}
+.menu-toggle svg{width:20px;height:20px;}
+.menu-toggle:focus-visible{outline:2px solid var(--brand);outline-offset:2px;}
+
+/* ===== 首屏 ===== */
+.hero{
+  position:relative;overflow:hidden;background:
+    radial-gradient(900px 420px at 88% -10%, rgba(232,70,43,.14), transparent 70%),
+    radial-gradient(700px 380px at 6% 110%, rgba(31,78,121,.10), transparent 70%),
+    var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:var(--sp-6);
+  padding-top:var(--sp-7);padding-bottom:var(--sp-7);align-items:center;
+}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--brand-dark);
+  background:var(--brand-soft);border-radius:999px;padding:4px 12px;font-weight:600;
+  margin-bottom:var(--sp-4);
+}
+.hero h1{font-size:clamp(28px,4.2vw,44px);font-weight:900;letter-spacing:-.5px;margin-bottom:var(--sp-4);}
+.hero h1 em{font-style:normal;color:var(--brand);}
+.hero-lead{font-size:16.5px;color:var(--ink-soft);max-width:36em;margin-bottom:var(--sp-5);}
+.hero-lead strong{color:var(--ink);}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-bottom:var(--sp-5);}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-s);
+  font-size:14.5px;font-weight:600;text-decoration:none!important;transition:transform .15s ease;
+  border:1px solid transparent;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-primary:hover{background:var(--brand-dark);}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line-strong);}
+.btn-ghost:hover{border-color:var(--ink-soft);}
+.hero-stats{display:flex;gap:var(--sp-6);flex-wrap:wrap;}
+.hero-stats .st b{display:block;font-family:var(--font-num);font-size:24px;color:var(--brand-dark);line-height:1.2;}
+.hero-stats .st span{font-size:13px;color:var(--muted);}
+.hero-viz{position:relative;height:340px;}
+.hero-viz svg{width:100%;height:100%;display:block;}
+.hero-note{
+  position:absolute;background:#fff;border:1px solid var(--line-strong);border-radius:var(--radius-m);
+  padding:8px 12px;font-size:12.5px;color:var(--ink-soft);box-shadow:var(--shadow-m);
+}
+.hero-note b{font-family:var(--font-num);color:var(--brand-dark);}
+
+/* ===== 主内容 ===== */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:var(--sp-6);padding-top:var(--sp-6);padding-bottom:var(--sp-7);}
+.main-col{min-width:0;}
+.side-col{min-width:0;display:flex;flex-direction:column;gap:var(--sp-5);}
+
+section{scroll-margin-top:var(--sticky-h);}
+.sec{margin-bottom:var(--sp-7);}
+.sec-head{display:flex;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-4);flex-wrap:wrap;}
+.sec-head h2{font-size:22px;font-weight:800;letter-spacing:-.3px;}
+.sec-head .sec-sub{font-size:13.5px;color:var(--muted);}
+.sec-head .more{margin-left:auto;font-size:13.5px;white-space:nowrap;}
+
+/* 领域概览 */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);}
+.ov-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:var(--sp-4);box-shadow:var(--shadow-s);
+}
+.ov-card .ov-k{font-family:var(--font-num);font-size:12px;color:var(--brand);font-weight:700;letter-spacing:1px;}
+.ov-card h3{font-size:15.5px;margin:4px 0 6px;}
+.ov-card p{font-size:13.5px;color:var(--ink-soft);margin:0;}
+
+/* 精选推荐 网格卡片 */
+.pick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-4);}
+.pick-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);
+  overflow:hidden;box-shadow:var(--shadow-s);display:flex;flex-direction:column;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.pick-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-m);}
+.pick-card .thumb{aspect-ratio:16/9;overflow:hidden;background:var(--bg-alt);}
+.pick-card .thumb img{width:100%;height:100%;object-fit:cover;}
+.pick-card .body{padding:var(--sp-3) var(--sp-4) var(--sp-4);flex:1;display:flex;flex-direction:column;}
+.pick-card h3{font-size:15.5px;margin-bottom:6px;}
+.pick-card p{font-size:13.5px;color:var(--ink-soft);margin-bottom:var(--sp-3);flex:1;}
+.meta-row{display:flex;gap:var(--sp-3);flex-wrap:wrap;font-size:12px;color:var(--muted);}
+.chip{
+  display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;
+  background:var(--accent-soft);color:var(--accent);font-weight:600;
+}
+.chip.hot{background:var(--brand-soft);color:var(--brand-dark);}
+.chip.gold{background:#f7eccf;color:var(--gold);}
+
+/* 最新更新 紧凑列表 */
+.upd-list{list-style:none;padding:0;margin:0;border-top:1px solid var(--line);}
+.upd-list li{
+  display:grid;grid-template-columns:92px 1fr auto;gap:var(--sp-3);align-items:baseline;
+  padding:var(--sp-3) 0;border-bottom:1px solid var(--line);margin:0;
+}
+.upd-list .t{font-family:var(--font-num);font-size:12.5px;color:var(--muted);}
+.upd-list .d{font-size:14.5px;}
+.upd-list .d b{font-weight:700;}
+.upd-list .d small{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:2px;}
+.upd-list .n{font-size:12px;color:var(--brand-dark);white-space:nowrap;}
+
+/* 分类入口 标签索引 */
+.cat-index{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+.cat-index a{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;
+  background:#fff;border:1px solid var(--line-strong);font-size:13.5px;color:var(--ink-soft);
+  text-decoration:none;
+}
+.cat-index a:hover{background:var(--brand-soft);border-color:var(--brand);color:var(--brand-dark);text-decoration:none;}
+.cat-index a .c{font-family:var(--font-num);font-size:11.5px;color:var(--muted);}
+
+/* 深度解析 分栏正文 */
+.deep{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-l);
+  padding:var(--sp-5) var(--sp-6);box-shadow:var(--shadow-s);
+}
+.deep h2{font-size:24px;margin-bottom:var(--sp-2);}
+.deep .deep-lead{font-size:15px;color:var(--ink-soft);border-left:3px solid var(--brand);padding-left:var(--sp-4);margin-bottom:var(--sp-5);}
+.deep h3{font-size:17.5px;margin:var(--sp-5) 0 var(--sp-3);padding-top:var(--sp-3);border-top:1px dashed var(--line-strong);}
+.deep h3:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+.deep p{font-size:15px;}
+.deep .judge{
+  background:var(--bg-alt);border-radius:var(--radius-m);padding:var(--sp-3) var(--sp-4);
+  font-size:14.5px;border-left:3px solid var(--gold);margin:var(--sp-3) 0;
+}
+.deep .judge strong{color:var(--brand-dark);}
+.deep table{width:100%;border-collapse:collapse;font-size:14px;margin:var(--sp-3) 0;}
+.deep th,.deep td{border:1px solid var(--line-strong);padding:8px 10px;text-align:left;vertical-align:top;}
+.deep th{background:var(--bg-alt);font-weight:700;font-size:13.5px;}
+.deep td.n{font-family:var(--font-num);white-space:nowrap;}
+
+/* 体验指南 编号步骤 */
+.steps{list-style:none;padding:0;margin:0;counter-reset:step;}
+.steps li{
+  position:relative;padding:0 0 var(--sp-4) 46px;margin:0;border-left:2px solid var(--line-strong);
+  margin-left:15px;
+}
+.steps li:last-child{border-left-color:transparent;padding-bottom:0;}
+.steps li::before{
+  counter-increment:step;content:counter(step);
+  position:absolute;left:-16px;top:0;width:30px;height:30px;border-radius:50%;
+  background:var(--brand);color:#fff;font-family:var(--font-num);font-size:14px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+.steps h3{font-size:15.5px;margin-bottom:4px;}
+.steps p{font-size:13.8px;color:var(--ink-soft);margin:0;}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:var(--sp-2);}
+details{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:0;overflow:hidden;
+}
+details[open]{border-color:var(--brand);box-shadow:var(--shadow-s);}
+summary{
+  cursor:pointer;padding:13px var(--sp-4);font-size:15px;font-weight:600;
+  list-style:none;position:relative;padding-right:40px;color:var(--ink);
+}
+summary::-webkit-details-marker{display:none;}
+summary::after{
+  content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-family:var(--font-num);font-size:18px;color:var(--brand);font-weight:400;
+}
+details[open] summary::after{content:"−";}
+summary:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;}
+details .ans{padding:0 var(--sp-4) var(--sp-4);font-size:14px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:var(--sp-3);margin-top:0;}
+
+/* 用户评论 */
+.cmt-list{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);}
+.cmt{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:var(--sp-4);
+}
+.cmt .who{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.cmt .ava{
+  width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+  font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;
+}
+.cmt .name{font-size:13px;font-weight:700;}
+.cmt .when{font-size:11.5px;color:var(--muted);margin-left:auto;}
+.cmt p{font-size:13.8px;margin:0;color:var(--ink-soft);}
+.cmt .ref{display:block;font-size:12px;color:var(--brand-dark);margin-top:6px;}
+
+/* 相关资讯 */
+.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-3);}
+.news-item{
+  border-bottom:1px dashed var(--line-strong);padding-bottom:var(--sp-3);
+}
+.news-item h3{font-size:14.5px;margin-bottom:4px;}
+.news-item p{font-size:13px;color:var(--muted);margin:0 0 4px;}
+.news-item .src{font-size:11.5px;color:var(--muted);font-family:var(--font-num);}
+
+/* 榜单 */
+.rank-list{list-style:none;padding:0;margin:0;counter-reset:rank;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);overflow:hidden;}
+.rank-list li{
+  display:grid;grid-template-columns:36px 1fr auto;gap:var(--sp-3);align-items:center;
+  padding:11px var(--sp-4);margin:0;border-bottom:1px solid var(--line);font-size:14px;
+}
+.rank-list li:last-child{border-bottom:none;}
+.rank-list li::before{
+  counter-increment:rank;content:counter(rank,decimal-leading-zero);
+  font-family:var(--font-num);font-size:13px;font-weight:700;color:var(--line-strong);
+}
+.rank-list li:nth-child(-n+3)::before{color:var(--brand);}
+.rank-list .sc{font-family:var(--font-num);font-size:12.5px;color:var(--muted);}
+
+/* 时间线 */
+.timeline{list-style:none;padding:0;margin:0;}
+.timeline li{
+  position:relative;padding:0 0 var(--sp-4) 100px;margin:0;
+}
+.timeline li::before{
+  content:"";position:absolute;left:78px;top:8px;width:9px;height:9px;border-radius:50%;
+  background:var(--brand);box-shadow:0 0 0 3px var(--brand-soft);
+}
+.timeline li::after{
+  content:"";position:absolute;left:82px;top:20px;bottom:0;width:1px;background:var(--line-strong);
+}
+.timeline li:last-child::after{display:none;}
+.timeline .tl-date{position:absolute;left:0;top:0;font-family:var(--font-num);font-size:12px;color:var(--muted);}
+.timeline h3{font-size:14.5px;margin-bottom:3px;}
+.timeline p{font-size:13.5px;color:var(--ink-soft);margin:0;}
+
+/* 相关推荐 标签 */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+.tag-cloud a{
+  font-size:13.5px;padding:5px 14px;border-radius:var(--radius-s);background:#fff;
+  border:1px solid var(--line-strong);color:var(--ink-soft);text-decoration:none;
+}
+.tag-cloud a:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);text-decoration:none;}
+
+/* 侧栏 */
+.side-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-m);
+  padding:var(--sp-4);box-shadow:var(--shadow-s);
+}
+.side-card h3{font-size:14.5px;margin-bottom:var(--sp-3);padding-bottom:8px;border-bottom:1px solid var(--line);}
+.side-nav{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:1px;}
+.side-nav a{
+  display:block;padding:6px 10px;border-radius:var(--radius-s);font-size:13.5px;
+  color:var(--ink-soft);text-decoration:none;border-left:2px solid transparent;
+}
+.side-nav a:hover{background:var(--bg-alt);text-decoration:none;}
+.side-nav a.active{background:var(--brand-soft);color:var(--brand-dark);font-weight:700;border-left-color:var(--brand);}
+.side-mini{display:flex;flex-direction:column;gap:var(--sp-3);}
+.side-mini .mini{
+  display:flex;gap:10px;align-items:flex-start;padding-bottom:10px;border-bottom:1px dashed var(--line);
+}
+.side-mini .mini:last-child{border-bottom:none;padding-bottom:0;}
+.side-mini .mini .th{width:64px;height:38px;flex:none;border-radius:4px;overflow:hidden;background:var(--bg-alt);}
+.side-mini .mini .th img{width:100%;height:100%;object-fit:cover;}
+.side-mini h4{font-size:13px;margin:0 0 2px;line-height:1.4;}
+.side-mini span{font-size:11.5px;color:var(--muted);font-family:var(--font-num);}
+.side-quote{
+  background:var(--bg-alt);border-left:3px solid var(--gold);border-radius:0 var(--radius-s) var(--radius-s) 0;
+  padding:var(--sp-3) var(--sp-4);font-size:13.5px;color:var(--ink-soft);
+}
+.side-quote b{display:block;margin-top:6px;font-size:12px;color:var(--muted);font-weight:400;}
+
+/* 回顶 */
+.to-top{
+  position:fixed;right:20px;bottom:24px;z-index:80;width:42px;height:42px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;display:none;
+  align-items:center;justify-content:center;box-shadow:var(--shadow-m);
+}
+.to-top.show{display:flex;}
+.to-top:hover{background:var(--brand);}
+.to-top:focus-visible{outline:2px solid var(--brand);outline-offset:2px;}
+
+/* 页脚 */
+.site-foot{background:var(--ink);color:#cfc7bb;margin-top:var(--sp-6);}
+.foot-inner{padding:var(--sp-6) 0 var(--sp-5);}
+.foot-top{display:grid;grid-template-columns:1.3fr 2fr;gap:var(--sp-6);padding-bottom:var(--sp-5);border-bottom:1px solid #3a342d;}
+.foot-brand .brand-name{color:#fff;font-size:18px;}
+.foot-brand p{font-size:13.5px;margin-top:10px;color:#a79e92;max-width:24em;}
+.foot-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);}
+.foot-cols h4{color:#fff;font-size:13.5px;margin-bottom:10px;letter-spacing:.5px;}
+.foot-cols ul{list-style:none;padding:0;margin:0;}
+.foot-cols li{margin-bottom:6px;}
+.foot-cols a{color:#a79e92;font-size:13px;text-decoration:none;}
+.foot-cols a:hover{color:#fff;}
+.foot-meta{padding-top:var(--sp-4);font-size:12.5px;color:#8d8579;display:flex;flex-wrap:wrap;gap:var(--sp-3) var(--sp-5);}
+.foot-meta .sep{opacity:.4;}
+.disclaim{background:#141210;color:#7d756a;font-size:12px;padding:var(--sp-3) 0;}
+.disclaim .wrap{display:flex;justify-content:space-between;gap:var(--sp-3);flex-wrap:wrap;}
+
+/* 响应式 */
+@media (max-width:1000px){
+  :root{--sticky-h:100px;}
+  .layout{grid-template-columns:1fr;}
+  .side-col{order:2;}
+  .main-col{order:1;}
+  .hero-inner{grid-template-columns:1fr;gap:var(--sp-4);}
+  .hero-viz{height:240px;}
+  .overview-grid{grid-template-columns:repeat(2,1fr);}
+  .nav-main{display:none;}
+  .nav-main.open{
+    display:flex;position:absolute;left:0;right:0;top:100%;
+    background:#fff;border-bottom:1px solid var(--line);padding:var(--sp-3) var(--sp-5);
+    flex-direction:column;gap:2px;box-shadow:var(--shadow-m);
+    margin-left:0;
+  }
+  .nav-main.open a{padding:9px 10px;}
+  .menu-toggle{display:flex;}
+  .site-head .head-inner{position:relative;}
+}
+@media (max-width:760px){
+  .wrap{padding:0 var(--sp-4);}
+  .pick-grid,.cmt-list,.news-grid,.foot-cols{grid-template-columns:1fr;}
+  .overview-grid{grid-template-columns:1fr;}
+  .upd-list li{grid-template-columns:78px 1fr;gap:4px 10px;}
+  .upd-list .n{grid-column:2;justify-self:start;}
+  .deep{padding:var(--sp-4);}
+  .search-box input{width:120px;}
+  .hero-stats{gap:var(--sp-5);}
+  .foot-top{grid-template-columns:1fr;}
+  .timeline li{padding-left:86px;}
+  .timeline li::before{left:64px;}
+  .timeline li::after{left:68px;}
+  .to-top{right:14px;bottom:100px;width:38px;height:38px;}
+  .hero h1{font-size:26px;}
+}
+@media (max-width:400px){
+  .head-inner{gap:var(--sp-2);}
+  .brand-name{font-size:15px;}
+  .brand-mark{width:32px;height:32px;}
+  .search-box input{width:92px;font-size:12.5px;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none!important;animation:none!important;}
+  .btn:hover,.pick-card:hover{transform:none;}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- 公告条 + 页头 吸顶组 -->
+<div class="announce">
+  <div class="wrap">
+    <span class="tag">更新</span>
+    <span>11月7日上线「多曲风节奏串烧」第 4 批片单，新增 12 条带码率标注片源；</span>
+    <span class="dot">·</span>
+    <a href="/#updates">查看变更明细</a>
+    <span class="dot">·</span>
+    <span>播放页清晰度说明补到 1080P60</span>
+  </div>
+</div>
+
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="/" aria-label="混剪pmv在线播放 首页">
+      <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="#e8462b"/>
+        <path d="M14 42 L27 12 L34 33 L50 21 L46 52 L17 52 Z" fill="#fff1e4"/>
+        <rect x="14" y="42" width="7" height="3" fill="#1a1714" opacity=".5"/>
+        <rect x="25" y="42" width="7" height="3" fill="#1a1714" opacity=".35"/>
+        <rect x="36" y="42" width="7" height="3" fill="#1a1714" opacity=".5"/>
+      </svg>
+      <span class="brand-name">混剪pmv在线播放</span>
+    </a>
+    <nav class="nav-main" id="mainNav" aria-label="主题导航">
+      <a href="/#overview">领域概览</a>
+      <a href="/#picks">精选片单</a>
+      <a href="/#updates">最新更新</a>
+      <a href="/#cats">曲风分类</a>
+      <a href="/#deep">深度解析</a>
+      <a href="/#guide">播放指南</a>
+      <a href="/#faq">常见问题</a>
+    </nav>
+    <div class="head-tools">
+      <div class="search-box">
+        <input type="search" id="siteSearch" placeholder="搜曲风/片单/码率" aria-label="站内搜索" autocomplete="off">
+        <div class="search-result" id="searchResult" role="listbox" aria-label="搜索结果"></div>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="展开导航菜单" aria-expanded="false" aria-controls="mainNav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 首屏 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="hero-kicker">2026 冬季片单 · 节奏剪辑专区</span>
+        <h1 id="hero-title">混剪pmv在线播放<em>：</em>按曲风、码率与踩点密度挑片</h1>
+        <p class="hero-lead">
+          把燃向高帧率、电音变速、动漫踩点与电影台词串烧放在同一张片单里，
+          标注 <strong>清晰度</strong>、<strong>平均码率</strong>、<strong>授权来源</strong> 与 BPM 区间。
+          每条片源都能直接看，也能按 90 秒、3 分钟、7 分钟三档时长筛。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/#picks">打开精选片单</a>
+          <a class="btn btn-ghost" href="/#guide">怎么选清晰度</a>
+        </div>
+        <div class="hero-stats">
+          <div class="st"><b>186</b><span>条在架片源</span></div>
+          <div class="st"><b>9</b><span>个曲风频道</span></div>
+          <div class="st"><b>1080P60</b><span>最高标称</span></div>
+          <div class="st"><b>27</b><span>条授权可查</span></div>
+        </div>
+      </div>
+      <div class="hero-viz" aria-hidden="true">
+        <svg viewBox="0 0 360 340" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#e8462b"/>
+              <stop offset="1" stop-color="#b52f1a"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#1f4e79"/>
+              <stop offset="1" stop-color="#3c7bb0"/>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="30" width="250" height="150" rx="12" fill="#fff" stroke="#e3ddd4"/>
+          <rect x="10" y="30" width="250" height="150" rx="12" fill="url(#g1)" opacity=".10"/>
+          <path d="M30 150 L50 96 L72 128 L96 70 L120 120 L146 84 L170 140 L196 60 L222 118 L242 92"
+                fill="none" stroke="url(#g1)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="196" cy="60" r="5" fill="#e8462b"/>
+          <text x="30" y="172" font-size="10" fill="#756c62" font-family="monospace">BPM 128 · 3:12</text>
+          <rect x="96" y="138" width="220" height="170" rx="12" fill="#fff" stroke="#e3ddd4"/>
+          <rect x="96" y="138" width="220" height="170" rx="12" fill="url(#g2)" opacity=".08"/>
+          <g fill="#1f4e79">
+            <rect x="116" y="216" width="10" height="44" rx="3"/>
+            <rect x="132" y="196" width="10" height="64" rx="3"/>
+            <rect x="148" y="230" width="10" height="30" rx="3"/>
+            <rect x="164" y="186" width="10" height="74" rx="3"/>
+            <rect x="180" y="210" width="10" height="50" rx="3"/>
+            <rect x="196" y="176" width="10" height="84" rx="3"/>
+            <rect x="212" y="222" width="10" height="38" rx="3"/>
+            <rect x="228" y="200" width="10" height="60" rx="3"/>
+            <rect x="244" y="236" width="10" height="24" rx="3"/>
+            <rect x="260" y="192" width="10" height="68" rx="3"/>
+          </g>
+          <text x="116" y="288" font-size="10" fill="#756c62" font-family="monospace">音频 RMS 波形 · 24 段切片</text>
+        </svg>
+        <div class="hero-note" style="top:6px;right:2px;">切片密度 <b>2.8 次/秒</b></div>
+        <div class="hero-note" style="bottom:64px;left:0;">码率 <b>8.4 Mbps</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap layout">
+    <!-- 主列 -->
+    <div class="main-col">
+
+      <!-- 领域概览 -->
+      <section class="sec" id="overview" aria-labelledby="ov-title">
+        <div class="sec-head">
+          <h2 id="ov-title">先弄清楚播的是什么</h2>
+          <span class="sec-sub">三类常见形态与各自的使用场景</span>
+        </div>
+        <div class="overview-grid">
+          <div class="ov-card">
+            <span class="ov-k">01 / 纯节奏剪辑</span>
+            <h3>动漫踩点混剪</h3>
+            <p>画面切换对齐鼓点，常见 128—160 BPM，单条 90 秒到 2 分半。看点在卡点误差，通常要求切点与重音错位不超过 2 帧。</p>
+          </div>
+          <div class="ov-card">
+            <span class="ov-k">02 / 变速串烧</span>
+            <h3>电音变速混剪</h3>
+            <p>同一素材经 0.8x—1.25x 拉伸后接进 Drop，BPM 变化跨度大。串烧类常把 5—8 首短曲压进 4 分钟，段落之间用 riser 过渡。</p>
+          </div>
+          <div class="ov-card">
+            <span class="ov-k">03 / 台词叙事</span>
+            <h3>电影台词混剪</h3>
+            <p>以对白推进，BGM 让位给人声，混音上要求人声 −6 dB 到 −3 dB。节奏剪得慢，但素材授权问题最多，需逐段核对来源。</p>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--ink-soft);margin-top:var(--sp-4);">
+          三种形态对播放端的要求不一样：踩点混剪最怕掉帧，串烧最怕音频重采样，台词混剪最怕把人声压进背景。
+          站内片源按这三个方向打标，筛选时先定形态再看时长，比直接搜曲名更省时间。
+        </p>
+      </section>
+
+      <!-- 精选片单 -->
+      <section class="sec" id="picks" aria-labelledby="pick-title">
+        <div class="sec-head">
+          <h2 id="pick-title">本期精选片单</h2>
+          <span class="sec-sub">编辑挑出 4 条，附码率与时长</span>
+          <a class="more" href="/#updates">全部更新 →</a>
+        </div>
+        <div class="pick-grid">
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/pmv-neon-ride/640/360" width="640" height="360" loading="lazy" alt="霓虹赛博风动画混剪封面，画面为蓝色高架桥与发光招牌">
+            </div>
+            <div class="body">
+              <h3>霓虹夜行：赛博动画 140BPM 踩点</h3>
+              <p>4 分 06 秒，切点 612 处，重音错位平均 1.3 帧。素材取自 3 部 2024 年后番剧，片尾附逐段时码。</p>
+              <div class="meta-row">
+                <span class="chip hot">踩点密集</span>
+                <span>1080P60</span>
+                <span>码率 9.1 Mbps</span>
+              </div>
+            </div>
+          </article>
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/pmv-city-night/640/360" width="640" height="360" loading="lazy" alt="城市夜景车流延时画面，用于电子串烧混剪封面">
+            </div>
+            <div class="body">
+              <h3>夜班电台：8 首电音 1.0x 串烧</h3>
+              <p>7 分 22 秒，BPM 从 122 爬到 150，中间 4 次 riser。音频统一重采样到 48 kHz，未做响度归一化。</p>
+              <div class="meta-row">
+                <span class="chip">长时长</span>
+                <span>1080P30</span>
+                <span>码率 6.8 Mbps</span>
+              </div>
+            </div>
+          </article>
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/pmv-film-rain/640/360" width="640" height="360" loading="lazy" alt="雨夜电影感街角画面，用于台词混剪封面">
+            </div>
+            <div class="body">
+              <h3>雨夜独白：五部港片台词混剪</h3>
+              <p>3 分 48 秒，对白 21 段，BGM 压到 −22 LUFS。标注了每段台词出自哪部片、哪一场，方便对照原片。</p>
+              <div class="meta-row">
+                <span class="chip gold">授权可查</span>
+                <span>1080P24</span>
+                <span>码率 5.2 Mbps</span>
+              </div>
+            </div>
+          </article>
+          <article class="pick-card">
+            <div class="thumb">
+              <img src="https://picsum.photos/seed/pmv-arcade-pixel/640/360" width="640" height="360" loading="lazy" alt="像素风街机画面，用于游戏混剪片单封面">
+            </div>
+            <div class="body">
+              <h3>街机回魂：像素游戏 BOSS 战踩点</h3>
+              <p>1 分 34 秒短切片，适合移动端。切点集中在前 40 秒，后半段留了一段无 BGM 的连招展示。</p>
+              <div class="meta-row">
+                <span class="chip">短视频</span>
+                <span>720P60</span>
+                <span>码率 4.0 Mbps</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 最新更新 -->
+      <section class="sec" id="updates" aria-labelledby="upd-title">
+        <div class="sec-head">
+          <h2 id="upd-title">最新更新</h2>
+          <span class="sec-sub">按上架时间倒序，带具体变更</span>
+        </div>
+        <ul class="upd-list">
+          <li>
+            <span class="t">11-07</span>
+            <span class="d"><b>新增 12 条多曲风节奏串烧</b><small>全部标注 48 kHz 采样与响度值，其中 4 条为 1080P60</small></span>
+            <span class="n">上架</span>
+          </li>
+          <li>
+            <span class="t">11-06</span>
+            <span class="d"><b>「霓虹夜行」重传到 v2</b><small>修正第 2 分 41 秒处 3 帧音画不同步，码率由 8.2 提到 9.1 Mbps</small></span>
+            <span class="n">修订</span>
+          </li>
+          <li>
+            <span class="t">11-05</span>
+            <span class="d"><b>新增「台词混剪」独立标签</b><small>原混在电影类下的 27 条片源已拆出，逐条补了原片出处</small></span>
+            <span class="n">分类</span>
+          </li>
+          <li>
+            <span class="t">11-03</span>
+            <span class="d"><b>下架 3 条来源不明的游戏混剪</b><small>片源方未能提供素材出处，按规则移出在架列表</small></span>
+            <span class="n">下架</span>
+          </li>
+          <li>
+            <span class="t">11-01</span>
+            <span class="d"><b>移动端播放页支持选起始画质</b><small>弱网默认落到 540P，可手动切 1080P，切换不掉进度</small></span>
+            <span class="n">功能</span>
+          </li>
+          <li>
+            <span class="t">10-29</span>
+            <span class="d"><b>补录 9 条 2025 年前的经典踩点片</b><small>老片多为 720P24，已在卡片上标明帧率差异</small></span>
+            <span class="n">补录</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 分类入口 -->
+      <section class="sec" id="cats" aria-labelledby="cat-title">
+        <div class="sec-head">
+          <h2 id="cat-title">按曲风与场景找片</h2>
+          <span class="sec-sub">括号内为该标签在架条数</span>
+        </div>
+        <div class="cat-index">
+          <a href="/#picks">动漫踩点混剪 <span class="c">(42)</span></a>
+          <a href="/#picks">电音变速串烧 <span class="c">(31)</span></a>
+          <a href="/#picks">电影台词混剪 <span class="c">(27)</span></a>
+          <a href="/#picks">游戏BOSS战踩点 <span class="c">(18)</span></a>
+          <a href="/#picks">国风民乐混剪 <span class="c">(15)</span></a>
+          <a href="/#picks">蒸汽波复古剪辑 <span class="c">(12)</span></a>
+          <a href="/#picks">高帧率60帧片源 <span class="c">(23)</span></a>
+          <a href="/#picks">90秒短视频切片 <span class="c">(36)</span></a>
+          <a href="/#picks">无损音轨串烧 <span class="c">(19)</span></a>
+          <a href="/#picks">真人影视混剪 <span class="c">(24)</span></a>
+        </div>
+      </section>
+
+      <!-- 深度解析 -->
+      <section class="sec deep" id="deep" aria-labelledby="deep-title">
+        <h2 id="deep-title">高帧率就一定更顺？踩点混剪的帧率与切点之争</h2>
+        <p class="deep-lead">
+          同一段 3 分钟踩点片，60 帧版本的文件大小接近 30 帧的两倍，但观众能不能看出差别，取决于切点密度和播放设备的刷新率，而不是帧率数字本身。
+        </p>
+
+        <h3>一、把「顺滑」拆成两个可核对指标</h3>
+        <p>
+          「顺滑」在日常讨论里被当成一个词，实际上至少混了两件事：一是画面本身的运动连贯度，取决于源素材帧率；
+          二是剪辑切点与鼓点的对齐误差，取决于作者卡点的手工精度。前者看文件参数，后者只能逐帧比。
+          站内给每条片源标了平均切点误差（单位：帧），这个数字的来源是把音频重音的峰值时间戳与画面切换帧的时间戳相减取绝对值再平均。
+        </p>
+        <div class="judge">
+          <strong>可被反驳的判断：</strong>在切点密度超过每秒 2.5 次的片子里，把 30 帧升到 60 帧，观众主观「更顺」的评分提升很小；
+          真正拉开差距的是切点误差能否压到 1.5 帧以内。反过来，慢节奏台词混剪升帧几乎无感。
+        </div>
+
+        <h3>二、三组片源的参数对照</h3>
+        <table>
+          <caption style="text-align:left;font-size:12.5px;color:var(--muted);padding-bottom:6px;">数据取自站内 11 月 6 日导出记录，样本为同一作者的三个版本</caption>
+          <thead>
+            <tr><th>版本</th><th>帧率 / 码率</th><th>切点密度</th><th>平均切点误差</th><th>文件大小</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>v1 标准版</td><td class="n">30fps / 6.1 Mbps</td><td class="n">2.7 次/秒</td><td class="n">2.4 帧</td><td class="n">142 MB</td></tr>
+            <tr><td>v2 升帧版</td><td class="n">60fps / 9.1 Mbps</td><td class="n">2.7 次/秒</td><td class="n">2.3 帧</td><td class="n">268 MB</td></tr>
+            <tr><td>v3 重剪版</td><td class="n">60fps / 8.6 Mbps</td><td class="n">3.4 次/秒</td><td class="n">1.1 帧</td><td class="n">251 MB</td></tr>
+          </tbody>
+        </table>
+        <p>
+          v2 只换帧率没重剪，误差只降了 0.1 帧；v3 重新对了一遍鼓点，误差掉到 1.1 帧，密度还提上去了。
+          作者在 11 月 6 日的修订说明里写，v3 的工序是把原音频切成 2.7 秒一段重新标峰，再逐段贴画面，多花了约 14 小时。
+        </p>
+
+        <h3>三、设备端还有一个被忽略的变量</h3>
+        <p>
+          手机屏幕多数是 60 Hz，少数机型到 120 Hz；笔记本常见 60 Hz 或 144 Hz。播放 60 帧素材时，
+          60 Hz 屏能一一对应，120 Hz 屏则会做 2:1 重复帧。反过来说，如果屏幕是 90 Hz，
+          30 帧和 60 帧的取舍会更明显。11 月 1 日上线的起始画质选择，默认按设备刷新率给建议，
+          但用户可以手动覆盖，这一点在播放页的设置面板里能看到。
+        </p>
+        <div class="judge">
+          <strong>结构性拆分：</strong>判断一条片源值不值得看 60 帧版，按顺序核对三项——
+          ① 播放设备刷新率是否 ≥60 Hz；② 该片平均切点误差是否 <2 帧；③ 切点密度是否 >2 次/秒。
+          三项都满足再切高帧率，否则 30 帧版本观感差别不大，还省一半流量。
+        </div>
+
+        <h3>四、关于「升帧等于重制」的说法差异</h3>
+        <p>
+          有创作者在社群转述，软件插帧升到 60 帧就等于「重新制作」，这条说法在证据上站不住。
+          帧插值只补中间帧，不改变切点位置；如果原剪辑在 2.4 帧误差上，插帧后误差仍是 2.4 帧，
+          只是运动看起来更连贯。站内 27 条标注「授权可查」的片源里，有 11 条同时提供 30 帧与 60 帧两版，
+          两版切点时间戳逐条比对一致。也就是说，升帧是呈现层的事，重剪才是内容层的事，两者不能混为一谈。
+        </p>
+      </section>
+
+      <!-- 体验指南 -->
+      <section class="sec" id="guide" aria-labelledby="guide-title">
+        <div class="sec-head">
+          <h2 id="guide-title">体验指南：从选片到看完的四步</h2>
+          <span class="sec-sub">每步附可核对的操作点</span>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>先按播放设备定画质上限</h3>
+            <p>手机 6 英寸屏看 540P 与 1080P 的差别有限，平板与桌面再往上加。播放页右上角的齿轮里能看到当前分辨率与实时码率，弱网会先掉到 540P。</p>
+          </li>
+          <li>
+            <h3>核对音轨采样与响度</h3>
+            <p>串烧类片源如果标 44.1 kHz，经重采样到 48 kHz 时可能有极轻微的高频损失。片源卡片上「无损音轨串烧」标签表示提供原始采样版本，下载与在线播放是同一份文件。</p>
+          </li>
+          <li>
+            <h3>用时间码定位切点</h3>
+            <p>精选片单的片源描述里给了关键切点时间码，比如 0:41、1:12、2:33。想研究卡点手法，直接跳到这几个位置逐帧看，比整片快进效率高。</p>
+          </li>
+          <li>
+            <h3>看完再决定要不要收进收藏</h3>
+            <p>收藏列表按曲风分组，不按时间倒序。同一作者的重剪版本会归到一组，v1 到 v3 的差异在组内展开可见，避免重复占位。</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- FAQ -->
+      <section class="sec" id="faq" aria-labelledby="faq-title">
+        <div class="sec-head">
+          <h2 id="faq-title">常见问题</h2>
+          <span class="sec-sub">按提问频率排，答案给具体参数</span>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>踩点混剪里「切点误差」是怎么算出来的？</summary>
+            <div class="ans">把音频里每个重音的峰值时间戳与画面切换帧的时间戳相减，取绝对值，再对全片求平均，单位是帧。以 60 帧素材为例，1 帧约 16.7 毫秒；误差 2 帧就是 33 毫秒，多数人能感觉到轻微错位。</div>
+          </details>
+          <details>
+            <summary>电音变速串烧为什么有时人声会发闷？</summary>
+            <div class="ans">变速处理会连带改变频谱，0.8x 拉伸时低频能量前移，1.25x 压缩时高频细节丢失。如果变速后又统一重采样到 48 kHz，两次处理叠加，人声频段（约 300 Hz—3 kHz）会出现轻微凹陷，听感上就是发闷。片源标「无损音轨串烧」的版本保留了变速前母带。</div>
+          </details>
+          <details>
+            <summary>动漫踩点混剪的素材来源一般怎么标注？</summary>
+            <div class="ans">站内要求写明番剧名、集数区间与大致时间码，例如某部 2024 年番第 3—5 集。11 月 3 日下架的 3 条游戏混剪，就是因为只写了游戏名、没写录屏来源与授权状态。标注完整的片源会在卡片上加「授权可查」标签。</div>
+          </details>
+          <details>
+            <summary>90 秒短视频切片和完整版内容一样吗？</summary>
+            <div class="ans">不一样。切片通常只保留副歌段落，切点密度更高，前 15 秒会放最密的鼓点段。完整版的铺垫段、过门段在切片里被删掉，所以同一片源两个版本的建议不是二选一，而是先看切片判断风格、再看完整版。</div>
+          </details>
+          <details>
+            <summary>手机上看 1080P60 会不会更耗电？</summary>
+            <div class="ans">会。解码 60 帧比 30 帧多约 1.4—1.8 倍的计算量，实测同一台 2024 年机型连续播放 1 小时，60 帧版本掉电约 18%，30 帧约 11%。通勤场景建议默认 540P30，坐下再看高画质。</div>
+          </details>
+          <details>
+            <summary>台词混剪里人声和 BGM 的音量比例有标准吗？</summary>
+            <div class="ans">没有强制标准，站内片源普遍把人声放在 −6 dB 到 −3 dB，BGM 压到 −22 LUFS 左右。超过这个比例，台词会盖住配乐情绪；低于 −9 dB，手机外放时听不清对白。</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 用户评论 -->
+      <section class="sec" id="comments" aria-labelledby="cmt-title">
+        <div class="sec-head">
+          <h2 id="cmt-title">观众怎么说</h2>
+          <span class="sec-sub">节选 11 月 5—7 日的 6 条，保留原话</span>
+        </div>
+        <div class="cmt-list">
+          <article class="cmt">
+            <div class="who"><span class="ava">阿</span><span class="name">阿茶不喝茶</span><span class="when">11-07</span></div>
+            <p>「霓虹夜行」v2 那段 2:41 修完之后确实对上了，之前总会觉得画面快半拍。</p>
+            <span class="ref">指向：霓虹夜行 v2</span>
+          </article>
+          <article class="cmt">
+            <div class="who"><span class="ava">L</span><span class="name">Lumen_07</span><span class="when">11-07</span></div>
+            <p>夜班电台 7 分 22 秒有点长，第三首到第四首的 riser 接得急，听完一次就跳了。</p>
+            <span class="ref">指向：夜班电台串烧</span>
+          </article>
+          <article class="cmt">
+            <div class="who"><span class="ava">林</span><span class="name">林间小径</span><span class="when">11-06</span></div>
+            <p>串烧能标采样率这一点挺少见，至少知道自己在听什么版本。</p>
+            <span class="ref">无具体指向</span>
+          </article>
+          <article class="cmt">
+            <div class="who"><span class="ava">六</span><span class="name">六边形战士</span><span class="when">11-06</span></div>
+            <p>雨夜独白里第五段台词的原片我找了两天没找到，标注写了片名但版本对不上。</p>
+            <span class="ref">指向：雨夜独白第五段</span>
+          </article>
+          <article class="cmt">
+            <div class="who"><span class="ava">M</span><span class="name">Mint薄荷</span><span class="when">11-05</span></div>
+            <p>街机回魂 1 分 34 秒刚好够午休，后半段没 BGM 的连招展示有点突然。</p>
+            <span class="ref">指向：街机回魂</span>
+          </article>
+          <article class="cmt">
+            <div class="who"><span class="ava">老</span><span class="name">老周剪片</span><span class="when">11-05</span></div>
+            <p>60 帧和 30 帧的重剪版本差距，评论区争了半天。v3 的密度确实高，但不是所有人都受得了每秒 3 次切。</p>
+            <span class="ref">指向：v1 与 v3 对比</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- 相关资讯 -->
+      <section class="sec" id="news" aria-labelledby="news-title">
+        <div class="sec-head">
+          <h2 id="news-title">相关资讯</h2>
+          <span class="sec-sub">外部动态，附来源与日期</span>
+        </div>
+        <div class="news-grid">
+          <div class="news-item">
+            <h3>多家视频平台更新创作者素材授权说明</h3>
+            <p>11 月 4 日，两家平台在创作者中心同步更新素材使用条款，明确二次剪辑的引用时长上限，对混剪类内容影响直接。</p>
+            <span class="src">来源：创作者中心公告 · 11-04</span>
+          </div>
+          <div class="news-item">
+            <h3>开源剪辑软件发布 2026.11 版本</h3>
+            <p>新增按音频波形自动标峰的辅助功能，手动逐帧对点的工作量下降，社区讨论集中在自动标峰的准确率上。</p>
+            <span class="src">来源：软件发布日志 · 11-03</span>
+          </div>
+          <div class="news-item">
+            <h3>某番剧官方发布二创指引</h3>
+            <p>11 月 2 日，制作方在官方账号发布二创素材使用指引，列出可引用集数与禁止商用条款，踩点类投稿需注明出处。</p>
+            <span class="src">来源：官方账号 · 11-02</span>
+          </div>
+          <div class="news-item">
+            <h3>音频响度标准讨论在混剪社群升温</h3>
+            <p>围绕 −14 LUFS 与 −22 LUFS 两种做法，剪辑社群本周出现多篇对比帖，分歧点在于手机外放的听感差异。</p>
+            <span class="src">来源：剪辑社群讨论帖 · 11-01</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 榜单 + 时间线 补充板块 -->
+      <section class="sec" id="rank" aria-labelledby="rank-title">
+        <div class="sec-head">
+          <h2 id="rank-title">本周播放榜与上架时间线</h2>
+          <span class="sec-sub">榜单按 11 月 1—7 日播放完成率排序</span>
+        </div>
+        <ol class="rank-list">
+          <li><span>街机回魂：像素游戏 BOSS 战踩点</span><span class="sc">完成率 81%</span></li>
+          <li><span>霓虹夜行：赛博动画 140BPM 踩点</span><span class="sc">完成率 74%</span></li>
+          <li><span>雨夜独白：五部港片台词混剪</span><span class="sc">完成率 69%</span></li>
+          <li><span>夜班电台：8 首电音 1.0x 串烧</span><span class="sc">完成率 52%</span></li>
+          <li><span>青绿山水：国风民乐变速混剪</span><span class="sc">完成率 48%</span></li>
+        </ol>
+        <ul class="timeline" style="margin-top:var(--sp-5);">
+          <li>
+            <span class="tl-date">10-29</span>
+            <h3>补录 9 条经典踩点片</h3>
+            <p>以 720P24 为主，卡片标注了帧率，老片重看时注意画面比例差异。</p>
+          </li>
+          <li>
+            <span class="tl-date">11-01</span>
+            <h3>移动端起始画质选择上线</h3>
+            <p>初始默认按设备刷新率给建议，弱网先落 540P，手动切换保留进度。</p>
+          </li>
+          <li>
+            <span class="tl-date">11-05</span>
+            <h3>台词混剪独立成标签</h3>
+            <p>27 条片源从电影类拆出，逐条补齐原片名与场次说明。</p>
+          </li>
+          <li>
+            <span class="tl-date">11-07</span>
+            <h3>第 4 批串烧片单上线</h3>
+            <p>12 条新片源全部带采样率与响度值，4 条为 1080P60。</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 相关推荐 -->
+      <section class="sec" id="recommend" aria-labelledby="rec-title">
+        <div class="sec-head">
+          <h2 id="rec-title">你可能会接着找</h2>
+          <span class="sec-sub">按搜索词相近度排列</span>
+        </div>
+        <div class="tag-cloud">
+          <a href="/#picks">动漫踩点混剪1080P60</a>
+          <a href="/#picks">电音变速串烧无损音轨</a>
+          <a href="/#picks">电影台词混剪人声比例</a>
+          <a href="/#deep">混剪切点误差怎么测</a>
+          <a href="/#guide">混剪视频码率选择</a>
+          <a href="/#picks">游戏BOSS战踩点混剪</a>
+          <a href="/#faq">60帧混剪值不值得看</a>
+          <a href="/#cats">国风民乐变速混剪</a>
+          <a href="/#picks">90秒高密度切点切片</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side-col" aria-label="侧栏信息">
+      <div class="side-card">
+        <h3>栏目导航</h3>
+        <nav aria-label="侧栏页内导航">
+          <ul class="side-nav" id="sideNav">
+            <li><a href="/#overview">领域概览</a></li>
+            <li><a href="/#picks">精选片单</a></li>
+            <li><a href="/#updates">最新更新</a></li>
+            <li><a href="/#cats">曲风分类</a></li>
+            <li><a href="/#deep">深度解析</a></li>
+            <li><a href="/#guide">体验指南</a></li>
+            <li><a href="/#faq">常见问题</a></li>
+            <li><a href="/#comments">观众评论</a></li>
+            <li><a href="/#news">相关资讯</a></li>
+            <li><a href="/#rank">榜单与时间线</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="side-card">
+        <h3>编辑最近在看的</h3>
+        <div class="side-mini">
+          <div class="mini">
+            <span class="th"><img src="https://picsum.photos/seed/pmv-side-a/160/96" width="160" height="96" loading="lazy" alt="青绿色调的国风动画画面缩略图"></span>
+            <div><h4>青绿山水：国风民乐变速混剪</h4><span>5:08 · 1080P30</span></div>
+          </div>
+          <div class="mini">
+            <span class="th"><img src="https://picsum.photos/seed/pmv-side-b/160/96" width="160" height="96" loading="lazy" alt="蒸汽波风格紫色渐变画面缩略图"></span>
+            <div><h4>午夜商场：蒸汽波复古串烧</h4><span>4:41 · 1080P30</span></div>
+          </div>
+          <div class="mini">
+            <span class="th"><img src="https://picsum.photos/seed/pmv-side-c/160/96" width="160" height="96" loading="lazy" alt="高速运动游戏画面缩略图"></span>
+            <div><h4>疾走回廊：竞速游戏高帧混剪</h4><span>2:19 · 1080P60</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-quote">
+        剪辑室里最常被问的一句：这个切点到底差几帧。答案不在软件里，在耳朵和眼睛对齐的那一瞬间。
+        <b>—— 一位做了九年混剪的剪辑师，11 月 6 日社群发言</b>
+      </div>
+
+      <div class="side-card">
+        <h3>数据说明</h3>
+        <p style="font-size:13px;color:var(--ink-soft);margin:0;">
+          在架片源 186 条，其中 27 条标注授权可查；播放完成率取自站内 11 月 1—7 日的播放日志，不包含 3 秒以下跳出。
+          列表中的时长、码率、切点密度均来自片源方导出记录，更新时间为 11 月 7 日。
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="brand-name">混剪pmv在线播放</span>
+        <p>按曲风、码率与切点密度整理的节奏剪辑片单，每条标注可核对参数。</p>
+      </div>
+      <div class="foot-cols">
+        <div>
+          <h4>片单</h4>
+          <ul>
+            <li><a href="/#picks">精选片单</a></li>
+            <li><a href="/#cats">曲风分类</a></li>
+            <li><a href="/#rank">本周播放榜</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>阅读</h4>
+          <ul>
+            <li><a href="/#deep">深度解析</a></li>
+            <li><a href="/#guide">体验指南</a></li>
+            <li><a href="/#news">相关资讯</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>帮助</h4>
+          <ul>
+            <li><a href="/#faq">常见问题</a></li>
+            <li><a href="/#comments">观众评论</a></li>
+            <li><a href="/#updates">最新更新</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>更新时间：2026-11-08</span>
+      <span class="sep">|</span>
+      <span>对应正文更新项：11-07 第 4 批串烧片单上架、11-06 霓虹夜行 v2 修订</span>
+      <span class="sep">|</span>
+      <span>片源参数为示例数据，具体以各片源导出记录为准</span>
+    </div>
+  </div>
+  <div class="disclaim">
+    <div class="wrap">
+      <span>© 2026 混剪pmv在线播放 · 内容示例站</span>
+      <span>片源版权归原权利人所有，引用请注明出处</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* 移动端菜单 */
+  var toggle = document.getElementById('menuToggle');
+  var nav = document.getElementById('mainNav');
+  if(toggle && nav){
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '收起导航菜单' : '展开导航菜单');
+    });
+    nav.addEventListener('click', function(e){
+      if(e.target.tagName === 'A' && nav.classList.contains('open')){
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+        toggle.setAttribute('aria-label','展开导航菜单');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && nav.classList.contains('open')){
+        nav.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+        toggle.focus();
+      }
+    });
+  }
+
+  /* 本地搜索 */
+  var input = document.getElementById('siteSearch');
+  var resultBox = document.getElementById('searchResult');
+  var idx = [];
+  document.querySelectorAll('.pick-card h3, .upd-list .d b, .cat-index a, .rank-list li span, .tag-cloud a, .side-mini h4, .news-item h3, .faq-list summary').forEach(function(el){
+    var text = el.textContent.trim();
+    if(text && text.length > 1){
+      var anchor = el.closest('section');
+      idx.push({text: text, target: anchor ? anchor.id : ''});
+    }
+  });
+  function renderSearch(q){
+    if(!resultBox) return;
+    q = q.trim().toLowerCase();
+    if(!q){ resultBox.classList.remove('show'); resultBox.innerHTML = ''; return; }
+    var hits = idx.filter(function(item){ return item.text.toLowerCase().indexOf(q) > -1; }).slice(0, 8);
+    if(hits.length === 0){
+      resultBox.innerHTML = '<div class="res-empty">没有匹配「' + q.replace(/[<>&]/g,'') + '」的片源或条目，换个曲风名、码率或时长试试。</div>';
+    } else {
+      resultBox.innerHTML = hits.map(function(item){
+        var href = item.target ? '/#' + item.target : '/#picks';
+        return '<a class="res-item" href="' + href + '">' + item.text + '</a>';
+      }).join('');
+    }
+    resultBox.classList.add('show');
+  }
+  if(input){
+    input.addEventListener('input', function(){ renderSearch(input.value); });
+    input.addEventListener('focus', function(){ if(input.value.trim()) renderSearch(input.value); });
+    document.addEventListener('click', function(e){
+      if(resultBox && !resultBox.contains(e.target) && e.target !== input){
+        resultBox.classList.remove('show');
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && resultBox){ resultBox.classList.remove('show'); }
+    });
+  }
+
+  /* 侧栏滚动高亮 */
+  var sideLinks = document.querySelectorAll('#sideNav a');
+  var sections = [];
+  sideLinks.forEach(function(a){
+    var id = a.getAttribute('href').slice(2);
+    var el = document.getElementById(id);
+    if(el) sections.push({id: id, el: el, link: a});
+  });
+  function onScrollSpy(){
+    if(!sections.length) return;
+    var pos = window.scrollY + 150;
+    var current = sections[0];
+    sections.forEach(function(s){
+      if(s.el.offsetTop <= pos) current = s;
+    });
+    sideLinks.forEach(function(a){ a.classList.remove('active'); });
+    if(current) current.link.classList.add('active');
+  }
+
+  /* 回到顶部 */
+  var toTop = document.getElementById('toTop');
+  function checkTop(){
+    if(!toTop) return;
+    if(window.scrollY > 600) toTop.classList.add('show');
+    else toTop.classList.remove('show');
+  }
+  if(toTop){
+    toTop.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){
+        onScrollSpy();
+        checkTop();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+  onScrollSpy();
+  checkTop();
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "混剪pmv在线播放",
+  "inLanguage": "zh-CN",
+  "description": "按曲风、码率与切点密度整理的混剪片单与播放参数说明。"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "踩点混剪里「切点误差」是怎么算出来的？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "把音频里每个重音的峰值时间戳与画面切换帧的时间戳相减，取绝对值，再对全片求平均，单位是帧。60 帧素材下 1 帧约 16.7 毫秒，2 帧即 33 毫秒。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "电音变速串烧为什么有时人声会发闷？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "变速处理会连带改变频谱，0.8x 拉伸时低频能量前移，1.25x 压缩时高频细节丢失；再叠加重采样到 48 kHz，人声频段约 300 Hz 至 3 kHz 会出现轻微凹陷。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "动漫踩点混剪的素材来源一般怎么标注？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "写明番剧名、集数区间与大致时间码，例如某部 2024 年番第 3 至 5 集；标注完整的片源会加「授权可查」标签。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "90 秒短视频切片和完整版内容一样吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不一样。切片通常只保留副歌段落，切点密度更高，前 15 秒放最密的鼓点段；完整版的铺垫段、过门段在切片里被删掉。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "手机上看 1080P60 会不会更耗电？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "会。解码 60 帧比 30 帧多约 1.4 至 1.8 倍计算量，同一台 2024 年机型连续播放 1 小时，60 帧版本掉电约 18%，30 帧约 11%。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "台词混剪里人声和 BGM 的音量比例有标准吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "没有强制标准。常见做法是人声放在 −6 dB 到 −3 dB，BGM 压到 −22 LUFS 左右；超过这个比例台词会盖住配乐情绪，低于 −9 dB 手机外放听不清对白。"
+      }
+    }
+  ]
+}
+</script>
+</body>
+  </html>
